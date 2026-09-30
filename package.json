@@ -1,0 +1,61 @@
+{
+  "name": "@aegis-security-investigations/react-data-table",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "description": "Controlled React data table rendering with selection, expansion, sorting, resizing and lazy drag support.",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./compat": {
+      "types": "./dist/compat.d.ts",
+      "import": "./dist/compat.js"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "bun test",
+    "prepack": "npm run build"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
+    "@radix-ui/react-icons": "^1.3.2",
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.0",
+    "lucide-react": "^1.11.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/bun": "^1.3.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "@testing-library/react": "^16.3.0",
+    "@happy-dom/global-registrator": "^20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AEGIS-Security-Investigations/react-data-table.git"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
