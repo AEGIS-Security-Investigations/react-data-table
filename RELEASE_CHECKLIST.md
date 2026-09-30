@@ -6,7 +6,7 @@ This source package is a release candidate, not an npm release.
 - [x] Runtime dependencies reviewed: MIT, ISC, or Apache-2.0; shadcn-derived primitive notice included.
 - [x] Source/build output and npm pack inventory inspected; no credentials, private fixtures, application history, or environment files included.
 - [x] Standalone compilation, native ESM import, focused behavior tests, and host compatibility tests run.
-- [ ] Owner approves a license. Keep `UNLICENSED` until then; do not infer an open-source license from public visibility.
+- [x] Owner explicitly approved MIT; LICENSE and upstream notices are included.
 - [ ] Verify npm organization/scope ownership and publishing rights using existing access. Do not create credentials or accept agreements without approval.
 - [ ] Review the app adapters and verify live desktop/mobile light/dark behavior before merging them.
 - [ ] Resolve/verify required host CI checks in a configured environment.

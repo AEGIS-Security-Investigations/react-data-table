@@ -2,7 +2,7 @@
 
 A controlled React 19 table renderer extracted from AEGIS's shared table. The host owns data fetching, search, filtering, pagination, selection state, preferences, business actions, and exports. No network or storage access is performed by this package.
 
-**Distribution candidate:** package name availability has been checked; npm scope access and the owner's license choice must be verified before registry publication. The package currently has `private: true` and `license: UNLICENSED` to prevent accidental publishing.
+**MIT licensed.** Source is public; no npm registry release has been published. The package retains `private: true` until npm scope access and publishing rights are verified. Applications can consume a checksum-verified `npm pack` artifact committed under their `vendor/` directory; this requires no registry credentials. Preserve LICENSE and THIRD_PARTY_NOTICES.md when redistributing.
 
 ## Usage
 
@@ -56,4 +56,4 @@ npm pack --dry-run
 
 TypeScript emits ESM and declarations. React remains a peer dependency; third-party code is installed as dependencies rather than bundled. The client entry preserves `use client`; relative imports use `.js` for native ESM compatibility.
 
-The initial adapters should be reviewed before expanding migration to other tables. No registry publish automation is configured. Publication requires an approved license, verified npm organization access, a final pack audit, and explicit removal of the accidental-publish guard. Never commit registry credentials.
+The initial adapters should be reviewed before expanding migration to other tables. No registry publish automation is configured. Registry publication requires verified npm organization access, a final pack audit, and explicit removal of the accidental-publish guard. Never commit registry credentials.

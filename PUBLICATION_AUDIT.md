@@ -16,7 +16,7 @@ Source inspection and pattern/import checks found no unexpected application impo
 
 The production dependency closure contains only MIT, ISC, and Apache-2.0 license identifiers. Dependencies remain external packages, not bundled copies. The shadcn-derived table, skeleton, and tooltip primitive license is retained in THIRD_PARTY_NOTICES.md. No copyleft, paid-component, or proprietary dependency was found in the extracted source or runtime dependency closure.
 
-Owner licensing for the extracted code remains undecided. `license: UNLICENSED` and `private: true` prevent accidental registry publication; they do not grant an open-source license. Public repository creation is authorized. No license grant, registry credential creation, legal agreement, registry publish, deployment, or merge has been performed.
+The owner explicitly approved MIT licensing and public source publication. LICENSE contains the MIT grant and upstream notices remain intact. `private: true` prevents accidental registry publication while npm scope access remains unverified. No registry credentials, persistent grants, new agreements, registry release, deployment or merge are part of this publication.
 
 ## Verification
 
