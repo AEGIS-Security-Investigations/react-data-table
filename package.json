@@ -26,8 +26,10 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "node scripts/build.mjs",
     "test": "bun test",
+    "check:package": "node scripts/check-package.mjs",
+    "test:consumer": "node scripts/consumer-smoke.mjs",
     "prepack": "npm run build"
   },
   "peerDependencies": {

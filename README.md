@@ -52,8 +52,12 @@ npm ci
 npm run build
 bun test
 npm pack --dry-run
+npm run check:package
+npm run test:consumer
 ```
 
 TypeScript emits ESM and declarations. React remains a peer dependency; third-party code is installed as dependencies rather than bundled. The client entry preserves `use client`; relative imports use `.js` for native ESM compatibility.
+
+The build clears old output before compiling. The package audit inspects the real tarball, checks its allowlist, export targets, client boundaries and React peers, and scans for credential patterns, private imports and workstation paths. The consumer check installs that tarball into a temporary application, resolves both entries in native ESM, checks declarations with strict TypeScript settings, server-renders synthetic rows, and generates Tailwind 3 styles from the published source. It uses network access to install public dependencies and removes its temporary files on completion. Neither check publishes anything.
 
 The initial adapters should be reviewed before expanding migration to other tables. No registry publish automation is configured. Registry publication requires verified npm organization access, a final pack audit, and explicit removal of the accidental-publish guard. Never commit registry credentials.

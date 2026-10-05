@@ -12,4 +12,8 @@ This source package is a release candidate, not an npm release.
 - [ ] Resolve/verify required host CI checks in a configured environment.
 - [ ] Final `npm pack --dry-run` inventory review; remove `private: true` only for the approved registry release.
 
+Run `npm run check:package` and `npm run test:consumer` after the final package name/version is selected. The candidate remains `@aegis-security-investigations/react-data-table@0.1.0`, MIT licensed. Public source visibility does not verify ownership of the matching npm scope. Do not substitute the unscoped `react-data-table` name: that package belongs to another publisher.
+
+The release operator must confirm the final name, version, public npm audience and npm account/scope permissions before removing `private: true` and publishing. Preserve the current version while it remains unpublished. Do not change consumer dependencies as part of the package release.
+
 The `compat` entry supports migration from existing internal modules. New integrations should use the root entry. Host applications can temporarily consume the audited tarball; replace that dependency with a released version after npm release is explicitly authorized and prerequisites are met.
