@@ -50,7 +50,7 @@ export function packAndAudit(work) {
     ["workstation path", /\/(?:Users|home)\/[A-Za-z0-9_-]+\//],
     ["application dependency", /(?:from\s*|import\s*\()["'](?:@\/|@prisma\/|.*generated\/)/],
   ];
-  const hosts = new Set(["github.com", "ui.shadcn.com", "www.w3.org"]);
+  const hosts = new Set(["github.com", "ui.shadcn.com", "www.w3.org", "registry.npmjs.org"]);
   for (const file of files) {
     const text = readFileSync(join(pkgRoot, file), "utf8");
     for (const [label, pattern] of patterns) {

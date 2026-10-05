@@ -12,7 +12,7 @@ try {
   const write = (file, contents) => writeFileSync(join(app, file), contents);
   write("package.json", JSON.stringify({
     name: "table-consumer-smoke", private: true, type: "module",
-    dependencies: { [manifest.name]: `file:${tarball}`, react: "19.2.5", "react-dom": "19.2.5" },
+    dependencies: { [manifest.name]: process.env.PACKAGE_SPEC || `file:${tarball}`, react: "19.2.5", "react-dom": "19.2.5" },
     devDependencies: { typescript: "5.9.3", "@types/react": "19.2.0", "@types/react-dom": "19.2.0", tailwindcss: "3.4.16", "tailwindcss-animate": "1.0.7" },
   }, null, 2));
   run("npm", ["install", "--ignore-scripts", "--no-audit", "--no-fund"], app);

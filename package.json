@@ -1,7 +1,6 @@
 {
-  "name": "@aegis-security-investigations/react-data-table",
+  "name": "@brotskyllc/react-data-table",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "license": "MIT",
   "description": "Controlled React data table rendering with selection, expansion, sorting, resizing and lazy drag support.",
@@ -60,5 +59,9 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

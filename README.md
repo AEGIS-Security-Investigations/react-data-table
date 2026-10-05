@@ -2,13 +2,13 @@
 
 A controlled React 19 table renderer extracted from AEGIS's shared table. The host owns data fetching, search, filtering, pagination, selection state, preferences, business actions, and exports. No network or storage access is performed by this package.
 
-**MIT licensed.** Source is public; no npm registry release has been published. The package retains `private: true` until npm scope access and publishing rights are verified. Applications can consume a checksum-verified `npm pack` artifact committed under their `vendor/` directory; this requires no registry credentials. Preserve LICENSE and THIRD_PARTY_NOTICES.md when redistributing.
+**MIT licensed.** Source is public. The public npm package name is `@brotskyllc/react-data-table`; after its first release, install with `npm install --save-exact @brotskyllc/react-data-table@0.1.0`. Use `npm view @brotskyllc/react-data-table version` to check registry availability. A checksum-verified `npm pack` artifact is also supported. Preserve LICENSE and THIRD_PARTY_NOTICES.md when redistributing.
 
 ## Usage
 
 ```tsx
 'use client';
-import { DataTableCore, type TableColumn } from '@aegis-security-investigations/react-data-table';
+import { DataTableCore, type TableColumn } from '@brotskyllc/react-data-table';
 
 type Item = { id: string; name: string; count: number };
 const columns: TableColumn<Item>[] = [
@@ -29,10 +29,10 @@ Use stable unique string `id` values for selection, expansion, dragging, and inl
 The package uses Tailwind utilities and semantic tokens (`background`, `foreground`, `muted`, `border`, `ring`, `primary`, `popover`). Include its published source in the host's Tailwind scan. For Tailwind 4, add a path relative to the stylesheet:
 
 ```css
-@source "../../../node_modules/@aegis-security-investigations/react-data-table/src";
+@source "../../../node_modules/@brotskyllc/react-data-table/src";
 ```
 
-For Tailwind 3 include `./node_modules/@aegis-security-investigations/react-data-table/src/**/*.{ts,tsx}` in `content`. Supply your existing light/dark theme and animation utilities.
+For Tailwind 3 include `./node_modules/@brotskyllc/react-data-table/src/**/*.{ts,tsx}` in `content`. Supply your existing light/dark theme and animation utilities.
 
 - `columns`: nested keys, custom cell rendering, widths, alignment, header tooltips, `headerClassName` and cell classes.
 - `sort` + `onSort`: controlled indicator and callback. The renderer never rearranges rows. `sortRowsByColumn` is an optional immutable client-sort helper.
@@ -60,4 +60,4 @@ TypeScript emits ESM and declarations. React remains a peer dependency; third-pa
 
 The build clears old output before compiling. The package audit inspects the real tarball, checks its allowlist, export targets, client boundaries and React peers, and scans for credential patterns, private imports and workstation paths. The consumer check installs that tarball into a temporary application, resolves both entries in native ESM, checks declarations with strict TypeScript settings, server-renders synthetic rows, and generates Tailwind 3 styles from the published source. It uses network access to install public dependencies and removes its temporary files on completion. Neither check publishes anything.
 
-The initial adapters should be reviewed before expanding migration to other tables. No registry publish automation is configured. Registry publication requires verified npm organization access, a final pack audit, and explicit removal of the accidental-publish guard. Never commit registry credentials.
+The initial adapters should be reviewed before expanding migration to other tables. No registry publish automation is configured. Registry publication requires owner approval, verified npm organization access and a final pack audit. Publish an approved tarball with `npm publish <tarball> --access public --registry=https://registry.npmjs.org/`. Never commit registry credentials.
