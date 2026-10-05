@@ -20,3 +20,5 @@ jobs:
       - run: npm run build
       - run: bun test
       - run: npm pack --dry-run
+      - run: npm run check:package
+      - run: npm run test:consumer

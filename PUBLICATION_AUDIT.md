@@ -16,7 +16,7 @@ Source inspection and pattern/import checks found no unexpected application impo
 
 The production dependency closure contains only MIT, ISC, and Apache-2.0 license identifiers. Dependencies remain external packages, not bundled copies. The shadcn-derived table, skeleton, and tooltip primitive license is retained in THIRD_PARTY_NOTICES.md. No copyleft, paid-component, or proprietary dependency was found in the extracted source or runtime dependency closure.
 
-The owner explicitly approved MIT licensing and public source publication. LICENSE contains the MIT grant and upstream notices remain intact. `private: true` prevents accidental registry publication while npm scope access remains unverified. No registry credentials, persistent grants, new agreements, registry release, deployment or merge are part of this publication.
+The owner explicitly approved MIT licensing and public source publication. LICENSE contains the MIT grant and upstream notices remain intact. On October 5, 2026, the owner additionally approved a public npm release as `@brotskyllc/react-data-table@0.1.0`; existing npm access identifies `bjbrotsky` as an owner of `brotskyllc`. The manifest's accidental-publish guard was removed for this approved release. No registry credentials, persistent grants, new agreements, deployments, merges or consumer updates are part of the release preparation.
 
 ## Verification
 
