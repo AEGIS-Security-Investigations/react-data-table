@@ -8,6 +8,14 @@ export function run(command, args, cwd = root) {
   return execFileSync(command, args, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "inherit"] });
 }
 
+// Reviewed public attribution URLs, allowed only as complete quoted README links.
+const README_BRAND_URLS = new Set([
+  "https://www.prlane.com/",
+  "https://www.prlane.com/brand/prlane/prlane-symbol-dark.png",
+  "https://www.brotskydesigns.com/",
+  "https://www.brotskydesigns.com/apple-touch-icon.png",
+]);
+
 export function packAndAudit(work) {
   const [packed] = JSON.parse(run("npm", ["pack", "--json", "--pack-destination", work]));
   const tarball = join(work, packed.filename);
@@ -57,7 +65,13 @@ export function packAndAudit(work) {
       // Report the location, never the secret or private text itself.
       if (pattern.test(text)) throw new Error(`${label} detected in ${file}`);
     }
-    for (const [, host] of text.matchAll(/https?:\/\/([A-Za-z0-9.-]+)/g)) {
+    for (const match of text.matchAll(/https?:\/\/([A-Za-z0-9.-]+)/g)) {
+      const [, host] = match;
+      const start = match.index ?? 0;
+      const quotedUrl = text[start - 1] === '"' ? text.slice(start).split('"', 1)[0] : "";
+      if (file === "README.md" && quotedUrl && README_BRAND_URLS.has(quotedUrl)) {
+        continue;
+      }
       if (!hosts.has(host)) throw new Error(`Unreviewed URL host in ${file}`);
     }
   }
