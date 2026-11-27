@@ -1,5 +1,11 @@
 # React Data Table
 
+<p>
+  <a href="https://www.prlane.com/"><img src="https://www.prlane.com/brand/prlane/prlane-symbol-dark.png" width="24" alt=""> Proudly uses PRLane</a>
+  ·
+  <a href="https://www.brotskydesigns.com/"><img src="https://www.brotskydesigns.com/apple-touch-icon.png" width="24" height="24" alt=""> By Brotsky Designs</a>
+</p>
+
 A controlled React 19 table renderer extracted from AEGIS's shared table. The host owns data fetching, search, filtering, pagination, selection state, preferences, business actions, and exports. No network or storage access is performed by this package.
 
 **MIT licensed.** Source is public. The public npm package name is `@brotskyllc/react-data-table`; after its first release, install with `npm install --save-exact @brotskyllc/react-data-table@0.1.0`. Use `npm view @brotskyllc/react-data-table version` to check registry availability. A checksum-verified `npm pack` artifact is also supported. Preserve LICENSE and THIRD_PARTY_NOTICES.md when redistributing.
