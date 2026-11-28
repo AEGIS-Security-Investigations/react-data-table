@@ -3,7 +3,7 @@
 <p>
   <a href="https://www.prlane.com/"><img src="https://www.prlane.com/brand/prlane/prlane-symbol-dark.png" width="24" alt=""> Proudly uses PRLane</a>
   ·
-  <a href="https://www.brotskydesigns.com/"><img src="https://www.brotskydesigns.com/apple-touch-icon.png" width="24" height="24" alt=""> By Brotsky Designs</a>
+  <a href="https://www.brotskydesigns.com/"><img src="https://www.brotskydesigns.com/apple-touch-icon.png" width="24" height="24" alt=""> By Brotsky</a>, LLC
 </p>
 
 A controlled React 19 table renderer extracted from AEGIS's shared table. The host owns data fetching, search, filtering, pagination, selection state, preferences, business actions, and exports. No network or storage access is performed by this package.
