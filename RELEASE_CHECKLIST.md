@@ -1,6 +1,6 @@
 # Release checklist
 
-This source package is a release candidate, not an npm release.
+The first public release, `@brotskyllc/react-data-table@0.1.0`, is already on npm. This section records its original checklist; see the trusted-publishing steps below for future versions.
 
 - [x] React renderer isolated from application data, IDs, generated APIs, permissions, preferences and business actions.
 - [x] Runtime dependencies reviewed: MIT, ISC, or Apache-2.0; shadcn-derived primitive notice included.
@@ -14,6 +14,13 @@ This source package is a release candidate, not an npm release.
 
 The owner approved `@brotskyllc/react-data-table@0.1.0` as a public MIT npm release. The manifest now uses that name and explicit public registry access; the accidental-publish guard has been removed for this approved release. Run `npm run check:package` and `npm run test:consumer` against the final artifact. Do not substitute the unscoped `react-data-table` name: that package belongs to another publisher.
 
-Check that the exact version remains absent immediately before publishing. Publish only the audited tarball using existing npm access; stop for any user authentication requirement. Preserve the current version while it remains unpublished. Do not change consumer dependencies as part of the package release.
+Check that each new exact version is absent immediately before publishing. Publish only the audited tarball, and do not change consumer dependencies as part of the package release.
 
 The `compat` entry supports migration from existing internal modules. New integrations should use the root entry. Host applications can temporarily consume the audited tarball; replace that dependency with a released version after npm release is explicitly authorized and prerequisites are met.
+
+## Future releases with npm trusted publishing
+
+- Use the public npm package's trusted-publisher settings. Choose **GitHub Actions** with organization `AEGIS-Security-Investigations`, repository `react-data-table`, workflow filename `publish.yml`, and no environment. Grant direct publishing (not staged publishing). No npm secret is needed in this repository.
+- Use **Run workflow** on `main` to rehearse. The manual run audits and consumer-tests the tarball and runs `npm publish --dry-run --offline`; it never publishes, even if `NPM_PUBLISH` is enabled.
+- For a real release, with owner approval, enable repository variable `NPM_PUBLISH=true` and merge a reviewed change to the stable package version on `main`. The workflow skips any version already present on npm and fails closed if it cannot verify the version list.
+- Add a new npm trust connection only when an unpublished release is ready: npm requires a first successful publish within two days. Verify the exact new version and source provenance on npm after release. See the [npm trusted-publishing guide](https://docs.npmjs.com/trusted-publishers/).
