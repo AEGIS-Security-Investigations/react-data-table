@@ -17,11 +17,14 @@ try {
   }, null, 2));
   run("npm", ["install", "--ignore-scripts", "--no-audit", "--no-fund"], app);
   run("npm", ["ls", "react", "react-dom"], app);
-  write("smoke.tsx", `import { DataTableCore, type TableColumn } from "${manifest.name}";
+  write("smoke.tsx", `import { DataTableCore, type DataTableAppearance, type TableColumn } from "${manifest.name}";
 import { parsePersistedColumnWidths } from "${manifest.name}/compat";
 type Row = { id: string; name: string; count: number; active: boolean };
 const columns: TableColumn<Row>[] = [{ key: "name", header: "Name" }, { key: "count", header: "Count" }, { key: "active", header: "Active" }];
 export const table = <DataTableCore data={[{ id: "a", name: "Alpha", count: 0, active: false }]} columns={columns} scrollAreaLabel="Items" onSort={() => {}} onSelectAll={() => {}} onRowSelect={() => {}} />;
+const coss: DataTableAppearance = "coss";
+export const cossTable = <DataTableCore appearance={coss} data={[{id: "b", name: "Beta", count: 2, active: true}]} columns={columns} scrollAreaLabel="Coss items"
+  onSort={() => {}} onSelectAll={() => {}} onRowSelect={() => {}} selection={{selectedIds: ["b"], onSelectionChange: () => {}, getRowCheckboxAriaLabel: row => "Select " + row.name}} />;
 void parsePersistedColumnWidths;
 `);
   write("tsconfig.json", JSON.stringify({ compilerOptions: {
@@ -31,7 +34,7 @@ void parsePersistedColumnWidths;
   run(process.execPath, ["node_modules/typescript/bin/tsc", "-p", "tsconfig.json"], app);
   write("runtime.mjs", `import assert from "node:assert/strict";
 import { renderToStaticMarkup } from "react-dom/server";
-import { table } from "./build/smoke.js";
+import { cossTable, table } from "./build/smoke.js";
 import { DataTableCore } from "${manifest.name}";
 import * as compat from "${manifest.name}/compat";
 assert.equal(typeof DataTableCore, "function");
@@ -39,7 +42,10 @@ assert.equal(typeof compat.DataTableDraggableRows, "function");
 assert.equal(typeof compat.parsePersistedColumnWidths, "function");
 const html = renderToStaticMarkup(table);
 for (const value of ["Alpha", ">0<", ">false<", 'aria-label="Items"']) assert.ok(html.includes(value), value);
-console.log("Native ESM, both exports, strict declarations, and server render passed");
+assert.ok(!html.includes('data-slot="table"'));
+const cossHtml = renderToStaticMarkup(cossTable);
+for (const value of ["Beta", 'aria-label="Coss items"', 'data-slot="table"', 'data-slot="checkbox"', 'data-state="selected"']) assert.ok(cossHtml.includes(value), value);
+console.log("Native ESM, both exports, strict declarations, and default/coss server render passed");
 `);
   console.log(run(process.execPath, ["runtime.mjs"], app).trim());
   write("tailwind.config.cjs", `module.exports = {
@@ -50,7 +56,7 @@ console.log("Native ESM, both exports, strict declarations, and server render pa
   write("input.css", "@tailwind utilities;\n");
   run(process.execPath, ["node_modules/tailwindcss/lib/cli.js", "-i", "input.css", "-o", "output.css"], app);
   const css = readFileSync(join(app, "output.css"), "utf8");
-  for (const rule of [".caption-bottom", ".bg-popover", ".text-sm", ".animate-in"]) {
+  for (const rule of [".caption-bottom", ".bg-popover", ".text-sm", ".animate-in", ".bg-clip-padding", ".whitespace-nowrap", ".h-10"]) {
     assert.ok(css.includes(rule), `Published source did not generate ${rule}`);
   }
   console.log("Tailwind 3 published-source scan passed; consumer smoke passed");

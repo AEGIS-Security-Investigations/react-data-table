@@ -12,6 +12,7 @@ import {
 
 interface TableScrollRegionProps {
 	label?: string;
+	"data-slot"?: "table-container";
 	className?: string;
 	children: ReactNode;
 }
@@ -19,6 +20,7 @@ interface TableScrollRegionProps {
 export const TableScrollRegion = ({
 	label,
 	className,
+	"data-slot": slot,
 	children,
 }: TableScrollRegionProps) => {
 	const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -58,6 +60,7 @@ export const TableScrollRegion = ({
 				className,
 			)}
 			data-testid="table-scroll-region"
+			data-slot={slot}
 			data-scrollable={isScrollable ? "true" : "false"}
 			{...resolveTableScrollRegionAttributes({ label, isScrollable })}
 		>

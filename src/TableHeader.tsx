@@ -1,3 +1,9 @@
+import {
+	CossTableTooltip,
+	CossTableTooltipProvider,
+} from "./ui/coss-table-tooltip.js";
+import { TableCheckbox } from "./ui/table-checkbox.js";
+import { useCossTableAppearance } from "./ui/tableAppearance.js";
 import { ChevronDown, ChevronUp, HelpCircle } from "lucide-react";
 import {
 	TableHead,
@@ -60,6 +66,7 @@ export const DataTableHeader = <T,>({
 	onSort,
 	onSelectAll,
 }: TableHeaderProps<T>) => {
+	const coss = useCossTableAppearance();
 	const hasAnyTooltip = columns.some((c) => c.headerTooltip);
 	const utilityColumnStyle = columnResize
 		? getColumnWidthStyle(UTILITY_COLUMN_WIDTH_PX)
@@ -68,18 +75,12 @@ export const DataTableHeader = <T,>({
 		<>
 			{selection && (
 				<TableHead className="w-10" style={utilityColumnStyle}>
-					<input
-						type="checkbox"
+					<TableCheckbox
 						aria-label={selection.selectAllAriaLabel}
 						data-testid={selection.selectAllTestId}
 						checked={allSelected}
 						disabled={headerCheckboxDisabled}
 						onChange={onSelectAll}
-						className={
-							headerCheckboxDisabled
-								? "cursor-not-allowed opacity-50"
-								: "cursor-pointer"
-						}
 					/>
 				</TableHead>
 			)}
@@ -143,7 +144,7 @@ export const DataTableHeader = <T,>({
 						aria-label={columnResize ? column.header : undefined}
 						aria-sort={headerAriaSort(column, sort)}
 						className={cn(
-							"text-gray-900 dark:text-white",
+							!coss && "text-gray-900 dark:text-white",
 							column.sortable && "cursor-pointer",
 							columnResize && "relative",
 							column.className,
@@ -159,23 +160,26 @@ export const DataTableHeader = <T,>({
 							)}
 						>
 							{headerContent}
-							{column.headerTooltip && (
-								<Tooltip>
-									<TooltipTrigger asChild>
-										<button
-											type="button"
-											onClick={(e) => e.stopPropagation()}
-											className="inline-flex shrink-0 rounded p-0.5 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1"
-											aria-label="More information"
-										>
-											<HelpCircle className="h-3.5 w-3.5" />
-										</button>
-									</TooltipTrigger>
-									<TooltipContent side="top">
-										{column.headerTooltip}
-									</TooltipContent>
-								</Tooltip>
-							)}
+							{column.headerTooltip &&
+								(coss ? (
+									<CossTableTooltip>{column.headerTooltip}</CossTableTooltip>
+								) : (
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<button
+												type="button"
+												onClick={(e) => e.stopPropagation()}
+												className="inline-flex shrink-0 rounded p-0.5 text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1"
+												aria-label="More information"
+											>
+												<HelpCircle className="h-3.5 w-3.5" />
+											</button>
+										</TooltipTrigger>
+										<TooltipContent side="top">
+											{column.headerTooltip}
+										</TooltipContent>
+									</Tooltip>
+								))}
 						</div>
 						{isResizable && columnResize && (
 							<ColumnResizeHandle
@@ -193,9 +197,19 @@ export const DataTableHeader = <T,>({
 
 	return (
 		<UITableHeader>
-			<TableRow className="hover:bg-zinc-50 dark:hover:bg-zinc-800">
+			<TableRow
+				className={
+					coss
+						? "hover:bg-transparent dark:hover:bg-transparent"
+						: "hover:bg-zinc-50 dark:hover:bg-zinc-800"
+				}
+			>
 				{hasAnyTooltip ? (
-					<TooltipProvider>{headerCells}</TooltipProvider>
+					coss ? (
+						<CossTableTooltipProvider>{headerCells}</CossTableTooltipProvider>
+					) : (
+						<TooltipProvider>{headerCells}</TooltipProvider>
+					)
 				) : (
 					headerCells
 				)}

@@ -1,6 +1,7 @@
 "use client";
 import { useId, useState } from "react";
 import { Table, TableCell, TableFooter, TableRow } from "./ui/table.js";
+import { TableAppearanceContext } from "./ui/tableAppearance.js";
 import { cn } from "./cn.js";
 import type { ColumnResizeApi } from "./columnResizeTypes.js";
 import { DataTableRows } from "./DataTableRows.js";
@@ -16,6 +17,7 @@ export type DataTableTableContentProps<T> = {
 	selection?: DataTableProps<T>["selection"];
 	draggable?: DataTableProps<T>["draggable"];
 	expandableRows?: DataTableProps<T>["expandableRows"];
+	appearance?: DataTableProps<T>["appearance"];
 	tableClassName?: DataTableProps<T>["tableClassName"];
 	scrollAreaLabel?: DataTableProps<T>["scrollAreaLabel"];
 	rowClassName?: DataTableProps<T>["rowClassName"];
@@ -42,6 +44,7 @@ export const DataTableTableContent = <T,>({
 	selection,
 	draggable,
 	expandableRows,
+	appearance = "default",
 	tableClassName,
 	scrollAreaLabel,
 	rowClassName,
@@ -102,59 +105,61 @@ export const DataTableTableContent = <T,>({
 		: tableClassName;
 
 	return (
-		<RowPickerOpenStateProvider>
-			<Table
-				className={cn(
-					resolvedTableClassName,
-					columnResize && "[&_td]:overflow-hidden [&_th]:overflow-hidden",
-					columnResize?.resizingColumnKey && "select-none",
-				)}
-				style={resizeTableStyle}
-				scrollAreaLabel={scrollAreaLabel}
-			>
-				<DataTableHeader
-					columns={columns}
-					sort={sort}
-					selection={selection}
-					draggable={draggable}
-					expandableRows={expandableRows}
-					allSelected={allSelected}
-					headerCheckboxDisabled={selection ? !hasSelectableRows : false}
-					columnResize={columnResize}
-					onSort={onSort}
-					onSelectAll={onSelectAll}
-				/>
-				<DataTableRows
-					data={data}
-					columns={columns}
-					draggable={draggable}
-					selection={selection}
-					expandableRows={expandableRows}
-					expandedRowIds={expandedRowIds}
-					onToggleRowExpansion={toggleRowExpansion}
-					onRowSelect={onRowSelect}
-					tableInstanceId={tableInstanceId}
-					isTableLoading={isTableLoading}
-					loadingRowCount={loadingRowCount}
-					emptyState={emptyState}
-					rowClassName={rowClassName}
-					getRowDataTestId={getRowDataTestId}
-					onRowClick={onRowClick}
-					onRowMouseEnter={onRowMouseEnter}
-					onRowMouseLeave={onRowMouseLeave}
-				/>
-				{footer && footer.cells.length > 0 && (
-					<TableFooter className={footer.className}>
-						<TableRow>
-							{footer.cells.map((cell) => (
-								<TableCell key={cell.key} className={cell.className}>
-									{cell.content}
-								</TableCell>
-							))}
-						</TableRow>
-					</TableFooter>
-				)}
-			</Table>
-		</RowPickerOpenStateProvider>
+		<TableAppearanceContext.Provider value={appearance}>
+			<RowPickerOpenStateProvider>
+				<Table
+					className={cn(
+						resolvedTableClassName,
+						columnResize && "[&_td]:overflow-hidden [&_th]:overflow-hidden",
+						columnResize?.resizingColumnKey && "select-none",
+					)}
+					style={resizeTableStyle}
+					scrollAreaLabel={scrollAreaLabel}
+				>
+					<DataTableHeader
+						columns={columns}
+						sort={sort}
+						selection={selection}
+						draggable={draggable}
+						expandableRows={expandableRows}
+						allSelected={allSelected}
+						headerCheckboxDisabled={selection ? !hasSelectableRows : false}
+						columnResize={columnResize}
+						onSort={onSort}
+						onSelectAll={onSelectAll}
+					/>
+					<DataTableRows
+						data={data}
+						columns={columns}
+						draggable={draggable}
+						selection={selection}
+						expandableRows={expandableRows}
+						expandedRowIds={expandedRowIds}
+						onToggleRowExpansion={toggleRowExpansion}
+						onRowSelect={onRowSelect}
+						tableInstanceId={tableInstanceId}
+						isTableLoading={isTableLoading}
+						loadingRowCount={loadingRowCount}
+						emptyState={emptyState}
+						rowClassName={rowClassName}
+						getRowDataTestId={getRowDataTestId}
+						onRowClick={onRowClick}
+						onRowMouseEnter={onRowMouseEnter}
+						onRowMouseLeave={onRowMouseLeave}
+					/>
+					{footer && footer.cells.length > 0 && (
+						<TableFooter className={footer.className}>
+							<TableRow>
+								{footer.cells.map((cell) => (
+									<TableCell key={cell.key} className={cell.className}>
+										{cell.content}
+									</TableCell>
+								))}
+							</TableRow>
+						</TableFooter>
+					)}
+				</Table>
+			</RowPickerOpenStateProvider>
+		</TableAppearanceContext.Provider>
 	);
 };

@@ -49,6 +49,35 @@ For Tailwind 3 include `./node_modules/@brotskyllc/react-data-table/src/**/*.{ts
 - `rowClassName`, row hover/click callbacks, test IDs, `footer`, `emptyState`, `isTableLoading`, and `loadingRowCount` cover presentation customization.
 - `useDataTableRowPickerOpen`: preserves inline picker state through row refreshes. Import this hook from the same package as the renderer so context identity stays shared.
 
+### coss UI appearance
+
+Opt in per table with `appearance="coss"`. Omit it (or use `appearance="default"`)
+to keep the existing appearance. The coss option adapts the upstream table and
+loading skeleton and uses coss-style Base UI checkboxes and tooltips. It keeps
+the same controlled sorting, selection, resizing, expansion, drag behavior,
+and accessible overflow region.
+
+```tsx
+<DataTableCore
+  appearance="coss"
+  data={rows}
+  columns={columns}
+  scrollAreaLabel="Items"
+  onSort={handleSort}
+  onSelectAll={handleSelectAll}
+  onRowSelect={handleRowSelect}
+/>
+```
+
+Keep the Tailwind source scan above. Use your coss theme, including
+`input`, `primary-foreground`, and `popover-foreground` alongside the shared
+tokens. Table hover and footer shading use CSS theme variables
+`--background` and `--card`. For Tailwind 3 hosts, expose these as actual CSS
+colors (for example, `hsl(0 0% 100%)`). In both Tailwind versions use the
+same dark-mode selector as your app. Cells are compact and do not wrap in the
+coss appearance by default; add `whitespace-normal` to a column's
+`className` if its content should wrap.
+
 Keep authentication, GraphQL types, application IDs, export auditing, saved views, responsive facet chrome, pagination and retry UI in the host. Business actions remain cell render functions supplied by the app.
 
 ## Development and distribution

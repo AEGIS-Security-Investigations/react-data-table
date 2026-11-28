@@ -1,7 +1,11 @@
+"use client";
+
 import type * as React from "react";
 
 import { cn } from "../cn.js";
 
+import { cossTableStyles } from "./cossTableStyles.js";
+import { useCossTableAppearance } from "./tableAppearance.js";
 import { TableScrollRegion } from "./table-scroll-region.js";
 
 const Table = ({
@@ -12,15 +16,22 @@ const Table = ({
 }: React.HTMLAttributes<HTMLTableElement> & {
 	ref?: React.Ref<HTMLTableElement>;
 	scrollAreaLabel?: string;
-}) => (
-	<TableScrollRegion label={scrollAreaLabel}>
-		<table
-			ref={ref}
-			className={cn("w-full caption-bottom text-sm", className)}
-			{...props}
-		/>
-	</TableScrollRegion>
-);
+}) => {
+	const coss = useCossTableAppearance();
+	return (
+		<TableScrollRegion
+			label={scrollAreaLabel}
+			data-slot={coss ? "table-container" : undefined}
+		>
+			<table
+				ref={ref}
+				className={cn("w-full caption-bottom text-sm", className)}
+				data-slot={coss ? "table" : undefined}
+				{...props}
+			/>
+		</TableScrollRegion>
+	);
+};
 Table.displayName = "Table";
 
 const TableHeader = ({
@@ -29,9 +40,17 @@ const TableHeader = ({
 	...props
 }: React.HTMLAttributes<HTMLTableSectionElement> & {
 	ref?: React.Ref<HTMLTableSectionElement>;
-}) => (
-	<thead ref={ref} className={cn("[&_tr]:border-b", className)} {...props} />
-);
+}) => {
+	const coss = useCossTableAppearance();
+	return (
+		<thead
+			ref={ref}
+			className={cn("[&_tr]:border-b", className)}
+			data-slot={coss ? "table-header" : undefined}
+			{...props}
+		/>
+	);
+};
 TableHeader.displayName = "TableHeader";
 
 const TableBody = ({
@@ -40,13 +59,21 @@ const TableBody = ({
 	...props
 }: React.HTMLAttributes<HTMLTableSectionElement> & {
 	ref?: React.Ref<HTMLTableSectionElement>;
-}) => (
-	<tbody
-		ref={ref}
-		className={cn("[&_tr:last-child]:border-0", className)}
-		{...props}
-	/>
-);
+}) => {
+	const coss = useCossTableAppearance();
+	return (
+		<tbody
+			ref={ref}
+			className={cn(
+				coss && "relative",
+				"[&_tr:last-child]:border-0",
+				className,
+			)}
+			data-slot={coss ? "table-body" : undefined}
+			{...props}
+		/>
+	);
+};
 TableBody.displayName = "TableBody";
 
 const TableFooter = ({
@@ -55,16 +82,22 @@ const TableFooter = ({
 	...props
 }: React.HTMLAttributes<HTMLTableSectionElement> & {
 	ref?: React.Ref<HTMLTableSectionElement>;
-}) => (
-	<tfoot
-		ref={ref}
-		className={cn(
-			"border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
-			className,
-		)}
-		{...props}
-	/>
-);
+}) => {
+	const coss = useCossTableAppearance();
+	return (
+		<tfoot
+			ref={ref}
+			className={cn(
+				coss
+					? cossTableStyles.footer
+					: "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+				className,
+			)}
+			data-slot={coss ? "table-footer" : undefined}
+			{...props}
+		/>
+	);
+};
 TableFooter.displayName = "TableFooter";
 
 const TableRow = ({
@@ -73,16 +106,22 @@ const TableRow = ({
 	...props
 }: React.HTMLAttributes<HTMLTableRowElement> & {
 	ref?: React.Ref<HTMLTableRowElement>;
-}) => (
-	<tr
-		ref={ref}
-		className={cn(
-			"border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
-			className,
-		)}
-		{...props}
-	/>
-);
+}) => {
+	const coss = useCossTableAppearance();
+	return (
+		<tr
+			ref={ref}
+			className={cn(
+				coss
+					? cossTableStyles.row
+					: "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+				className,
+			)}
+			data-slot={coss ? "table-row" : undefined}
+			{...props}
+		/>
+	);
+};
 TableRow.displayName = "TableRow";
 
 const TableHead = ({
@@ -92,17 +131,23 @@ const TableHead = ({
 	...props
 }: React.ThHTMLAttributes<HTMLTableCellElement> & {
 	ref?: React.Ref<HTMLTableCellElement>;
-}) => (
-	<th
-		ref={ref}
-		scope={scope}
-		className={cn(
-			"h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
-			className,
-		)}
-		{...props}
-	/>
-);
+}) => {
+	const coss = useCossTableAppearance();
+	return (
+		<th
+			ref={ref}
+			scope={scope}
+			className={cn(
+				coss
+					? cossTableStyles.head
+					: "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
+				className,
+			)}
+			data-slot={coss ? "table-head" : undefined}
+			{...props}
+		/>
+	);
+};
 TableHead.displayName = "TableHead";
 
 const TableCell = ({
@@ -111,13 +156,22 @@ const TableCell = ({
 	...props
 }: React.TdHTMLAttributes<HTMLTableCellElement> & {
 	ref?: React.Ref<HTMLTableCellElement>;
-}) => (
-	<td
-		ref={ref}
-		className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
-		{...props}
-	/>
-);
+}) => {
+	const coss = useCossTableAppearance();
+	return (
+		<td
+			ref={ref}
+			className={cn(
+				coss
+					? cossTableStyles.cell
+					: "p-4 align-middle [&:has([role=checkbox])]:pr-0",
+				className,
+			)}
+			data-slot={coss ? "table-cell" : undefined}
+			{...props}
+		/>
+	);
+};
 TableCell.displayName = "TableCell";
 
 const TableCaption = ({
@@ -126,13 +180,17 @@ const TableCaption = ({
 	...props
 }: React.HTMLAttributes<HTMLTableCaptionElement> & {
 	ref?: React.Ref<HTMLTableCaptionElement>;
-}) => (
-	<caption
-		ref={ref}
-		className={cn("mt-4 text-sm text-muted-foreground", className)}
-		{...props}
-	/>
-);
+}) => {
+	const coss = useCossTableAppearance();
+	return (
+		<caption
+			ref={ref}
+			className={cn("mt-4 text-sm text-muted-foreground", className)}
+			data-slot={coss ? "table-caption" : undefined}
+			{...props}
+		/>
+	);
+};
 TableCaption.displayName = "TableCaption";
 
 export {
