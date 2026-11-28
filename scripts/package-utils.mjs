@@ -16,8 +16,33 @@ const README_BRAND_URLS = new Set([
   "https://www.brotskydesigns.com/apple-touch-icon.png",
 ]);
 
+// npm 10/11 return a list; npm 12 returns an object keyed by package name.
+export function parsePackResult(output, name) {
+  const result = JSON.parse(output);
+  const entries = Array.isArray(result)
+    ? result
+    : result && typeof result === "object" &&
+        Object.keys(result).length === 1 && Object.hasOwn(result, name)
+      ? [result[name]]
+      : [];
+  const [packed] = entries;
+  if (
+    entries.length !== 1 || packed?.name !== name ||
+    typeof packed.filename !== "string" ||
+    !/^[a-zA-Z0-9_-][a-zA-Z0-9_.+-]*\.tgz$/.test(packed.filename) ||
+    !Array.isArray(packed.files) || packed.files.length === 0 ||
+    !packed.files.every((item) => typeof item?.path === "string") ||
+    packed.entryCount !== packed.files.length ||
+    !Number.isSafeInteger(packed.size) || packed.size <= 0
+  ) {
+    throw new Error("npm pack did not report exactly one valid tarball for this package");
+  }
+  return packed;
+}
+
 export function packAndAudit(work) {
-  const [packed] = JSON.parse(run("npm", ["pack", "--json", "--pack-destination", work]));
+  const { name } = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
+  const packed = parsePackResult(run("npm", ["pack", "--json", "--pack-destination", work]), name);
   const tarball = join(work, packed.filename);
   const files = packed.files.map(({ path }) => path);
   const docs = new Set(["package.json", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md"]);

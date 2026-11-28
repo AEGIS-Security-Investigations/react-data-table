@@ -1,6 +1,6 @@
 {
   "name": "@brotskyllc/react-data-table",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "license": "MIT",
   "description": "Controlled React data table rendering with selection, expansion, sorting, resizing and lazy drag support.",
