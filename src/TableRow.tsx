@@ -1,3 +1,5 @@
+import { TableCheckbox } from "./ui/table-checkbox.js";
+import { useCossTableAppearance } from "./ui/tableAppearance.js";
 import type { DraggableProvided } from "@hello-pangea/dnd";
 import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { ChevronDown, ChevronRight } from "lucide-react";
@@ -45,8 +47,12 @@ export const DataTableRow = <T,>({
 	onRowMouseLeave,
 	onRowSelect,
 }: TableRowProps<T>) => {
+	const coss = useCossTableAppearance();
 	const rowSelectable =
 		!selection?.isRowSelectable || selection.isRowSelectable(row as T);
+	const rowSelected =
+		rowSelectable &&
+		Boolean(selection?.selectedIds.includes((row as { id: string }).id));
 	const clickTogglesSelection = Boolean(
 		selection?.selectOnRowClick && rowSelectable,
 	);
@@ -68,6 +74,7 @@ export const DataTableRow = <T,>({
 			ref={provided?.innerRef}
 			{...provided?.draggableProps}
 			data-testid={getRowDataTestId?.(row as T)}
+			data-state={coss && rowSelected ? "selected" : undefined}
 			className={cn(
 				(clickTogglesSelection || clickOpensRow) && "cursor-pointer",
 				rowClassName?.(row),
@@ -84,19 +91,12 @@ export const DataTableRow = <T,>({
 		>
 			{selection && (
 				<TableCell className="w-10">
-					<input
-						type="checkbox"
+					<TableCheckbox
 						aria-label={selection.getRowCheckboxAriaLabel?.(row as T)}
 						data-testid={selection.getRowCheckboxTestId?.(row as T)}
-						checked={
-							rowSelectable &&
-							selection.selectedIds.includes((row as { id: string }).id)
-						}
+						checked={rowSelected}
 						disabled={!rowSelectable}
 						onChange={() => onRowSelect((row as { id: string }).id)}
-						className={
-							rowSelectable ? "cursor-pointer" : "cursor-not-allowed opacity-50"
-						}
 					/>
 				</TableCell>
 			)}

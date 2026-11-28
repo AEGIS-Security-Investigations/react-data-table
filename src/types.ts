@@ -1,4 +1,5 @@
 import type * as React from "react";
+import type { DataTableAppearance } from "./ui/tableAppearance.js";
 import type { DropResult } from "@hello-pangea/dnd";
 import type { TableColumn } from "./columnTypes.js";
 import type { DataTableSelectionOptions } from "./selectionTypes.js";
@@ -8,6 +9,7 @@ export type {
 	ExportCellValue,
 	NestedKeyOf,
 } from "./columnTypes.js";
+export type { DataTableAppearance } from "./ui/tableAppearance.js";
 export type { DataTableSelectionOptions } from "./selectionTypes.js";
 export type ExpandableRowsOptions<T> = {
 	renderExpandedContent: (row: T) => React.ReactNode;
@@ -27,6 +29,8 @@ export type ExpandableRowsOptions<T> = {
 export interface DataTableProps<T> {
 	columns: TableColumn<T>[];
 	data: T[];
+	/** Opt in to the coss UI theme; default preserves the existing primitives. */
+	appearance?: DataTableAppearance;
 	sort?: { field: string | null; order: "asc" | "desc" | null };
 	selection?: DataTableSelectionOptions<T>;
 	draggable?: {
